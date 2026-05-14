@@ -6,7 +6,7 @@ Base inicial para migrar `https://www.piccolokids.com.ar/` hacia una tienda pers
 
 - **Frontend:** Next.js en `apps/web`, preparado para desplegar en **Vercel**.
 - **Backend/BFF:** Express en `apps/api`, preparado para desplegar en **Railway** como proxy/controlador de integración con el backend actual.
-- **Monorepo:** npm workspaces para separar frontend, API y código compartido.
+- **Monorepo:** npm workspaces para separar frontend y API.
 
 ## Variables de entorno
 
@@ -23,19 +23,20 @@ Copiar `.env.example` y configurar en cada proveedor:
 1. Importar este repositorio.
 2. Mantener la configuración raíz con `vercel.json`.
 3. Definir `NEXT_PUBLIC_API_URL` con la URL generada por Railway.
-4. Build command: `npm run build --workspace @piccolo/web`.
+4. Build command: `cd apps/web && npm run build`.
 
 ### Railway
 
 1. Crear un servicio desde este repositorio.
-2. Usar el `railway.json` de la raíz del repo para construir y arrancar `@piccolo/api`.
+2. Usar el `railway.json` de la raíz del repo para instalar, construir y arrancar solamente `apps/api`.
 3. Definir `BACKEND_ORIGIN` y `ALLOWED_ORIGINS`.
 4. Verificar `/health` después del deploy.
 
 ## Desarrollo local
 
 ```bash
-npm install
+npm install --prefix apps/web
+npm install --prefix apps/api
 npm run dev:web
 npm run dev:api
 ```

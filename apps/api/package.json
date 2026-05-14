@@ -4,25 +4,18 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/server.ts",
-    "build": "tsc -p tsconfig.json",
-    "start": "node dist/server.js",
-    "lint": "tsc -p tsconfig.json --noEmit",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "dev": "node --watch src/server.js",
+    "build": "node --check src/server.js",
+    "start": "node src/server.js",
+    "lint": "node --check src/server.js",
+    "typecheck": "node --check src/server.js"
   },
   "dependencies": {
     "cors": "2.8.5",
     "express": "5.1.0",
     "http-proxy-middleware": "3.0.5"
   },
-  "devDependencies": {
-    "@types/cors": "2.8.17",
-    "@types/express": "5.0.1",
-    "@types/node": "22.15.17",
-    "tsx": "4.19.4",
-    "typescript": "5.8.3"
-  },
   "engines": {
-    "node": ">=20"
+    "node": "20.x"
   }
 }

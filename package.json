@@ -3,7 +3,8 @@
   "private": true,
   "version": "0.1.0",
   "workspaces": [
-    "apps/*"
+    "apps/web",
+    "apps/api"
   ],
   "scripts": {
     "dev": "npm run dev --workspace @piccolo/web",
@@ -14,6 +15,6 @@
     "typecheck": "npm run typecheck --workspace @piccolo/web && npm run typecheck --workspace @piccolo/api"
   },
   "engines": {
-    "node": ">=20"
+    "node": "20.x"
   }
 }
