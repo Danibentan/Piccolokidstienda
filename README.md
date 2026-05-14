@@ -20,10 +20,30 @@ Copiar `.env.example` y configurar en cada proveedor:
 
 ### Vercel
 
+### Configuración obligatoria de Vercel
+
+En Vercel, el proyecto que publica la tienda debe apuntar al frontend:
+
+```txt
+Root Directory: apps/web
+```
+
+No usar `apps/api` como Root Directory en Vercel. `apps/api` es el BFF/API y se despliega en Railway. Si Vercel queda apuntando a `apps/api`, el deploy va a fallar o va a intentar publicar el servicio equivocado.
+
+Con `Root Directory: apps/web`, Vercel usa `apps/web/vercel.json` y ejecuta:
+
+```bash
+npm install --no-audit --no-fund
+npm run build
+```
+
 1. Importar este repositorio.
-2. Mantener la configuración raíz con `vercel.json`.
-3. Definir `NEXT_PUBLIC_API_URL` con la URL generada por Railway.
-4. Build command: `cd apps/web && npm run build`.
+2. En **Project Settings > General**, configurar `Root Directory` como `apps/web` para publicar la tienda. Si el proyecto quedó creado con `apps/api`, cambiarlo a `apps/web` antes de redeployar.
+3. En **Project Settings > Build & Development Settings**, borrar overrides manuales antiguos como `npm install --prefix apps/web`; dejar que Vercel use `apps/web/vercel.json` o configurar Install Command como `npm install --no-audit --no-fund` y Build Command como `npm run build`.
+> Nota de compatibilidad: el repo incluye `apps/web/apps/web` como enlace simbólico hacia `apps/web` para tolerar deployments de Vercel que todavía tengan guardado el override viejo `npm install --prefix apps/web` mientras el Root Directory ya es `apps/web`. Aun así, la configuración correcta es borrar ese override y usar `npm install --no-audit --no-fund`.
+
+4. Definir `NEXT_PUBLIC_API_URL` con la URL generada por Railway.
+5. Redeployar el commit más nuevo; si Vercel muestra el commit `4f12ad2`, todavía está usando una versión vieja y hay que redeployar el último commit de la rama.
 
 ### Railway
 
@@ -35,8 +55,9 @@ Copiar `.env.example` y configurar en cada proveedor:
 ## Desarrollo local
 
 ```bash
-npm install --prefix apps/web
-npm install --prefix apps/api
+cd apps/web && npm install
+cd ../api && npm install
+cd ../..
 npm run dev:web
 npm run dev:api
 ```
